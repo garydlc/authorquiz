@@ -73,13 +73,6 @@ function getTurnData(authors) {
   };
 }
 
-// function resetState() {
-//   return {
-//     turnData: getTurnData(authors),
-//     highlight: "none"
-//   };
-// }
-
 //applies action on state in to produce NEW state
 function reducer(
   state = { authors, turnData: getTurnData(authors), highlight: "" },
