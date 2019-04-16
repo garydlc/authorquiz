@@ -55,7 +55,6 @@ const authors = [
   }
 ];
 
-
 function concatBooks(acc, cur, indx) {
   return acc.concat(cur.books);
 }
@@ -81,71 +80,53 @@ function getTurnData(authors) {
 //   };
 // }
 
-
 //applies action on state in to produce NEW state
-function reducer(state = {authors, turnData: getTurnData(authors), highlight:''}, action){
-    switch(action.type){
-       case 'ANSWER_SELECTED':
-       
-          const isCorrect  = state.turnData.author.books.some(
-              book => book === action.answer
-            );
-            return Object.assign({}, state, {highlight: isCorrect?'correct':'wrong'});
-        case 'CONTINUE':
-          return Object.assign({}, state, {
-            highlight: '',
-            turnData: getTurnData(state.authors)
-          });
+function reducer(
+  state = { authors, turnData: getTurnData(authors), highlight: "" },
+  action
+) {
+  switch (action.type) {
+    case "ANSWER_SELECTED":
+      const isCorrect = state.turnData.author.books.some(
+        book => book === action.answer
+      );
+      return Object.assign({}, state, {
+        highlight: isCorrect ? "correct" : "wrong"
+      });
+    case "CONTINUE":
+      return Object.assign({}, state, {
+        highlight: "",
+        turnData: getTurnData(state.authors)
+      });
+    case "ADD_AUTHOR":
+      return Object.assign({}, state, {
+        authors: state.authors.concat([action.author])
+      });
 
-        default:
-          return state;
-    }
+    default:
+      return state;
+  }
 }
 
 //let state = resetState();
 
-//need reducer function 
-let store = Redux.createStore(reducer);
-//let state = resetState();
+//need reducer function
+let store = Redux.createStore(
+  reducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 
-// function onAnswerSelected(answerTitle) {
-//   const isCorrect = state.turnData.author.books.some(
-//     book => book === answerTitle
-//   );
-
-//   state.highlight = isCorrect ? "correct" : "wrong";
-//   render();
-// }
-
-function App() {
-  return (
+ReactDOM.render(
+  <BrowserRouter>
     <ReactRedux.Provider store={store}>
-        <AuthorQuiz/>
-      </ReactRedux.Provider>
-  );
-}
-
-const AuthorWrapper = withRouter(({ history }) => (
-  //return <AddAuthorForm onAddAuthor={console.log}/>;
-  <AddAuthorForm
-    onAddAuthor={author => {
-      authors.push(author);
-      history.push("/");
-    }}
-  />
-));
-
-  ReactDOM.render(
-    <BrowserRouter>
       <React.Fragment>
-        <Route exact path="/" component={App} />
-        <Route path="/add" component={AuthorWrapper} />
+        <Route exact path="/" component={AuthorQuiz} />
+        <Route path="/add" component={AddAuthorForm} />
       </React.Fragment>
-    </BrowserRouter>,
-    document.getElementById("root")
-  );
-
-
+    </ReactRedux.Provider>
+  </BrowserRouter>,
+  document.getElementById("root")
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
