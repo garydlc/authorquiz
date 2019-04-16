@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Route, withRouter } from "react-router-dom";
-import * as Redux from 'redux';
-import * as ReactRedux from 'react-redux';
+import * as Redux from "redux";
+import * as ReactRedux from "react-redux";
 
 import "./index.css";
 import AuthorQuiz from "./AuthorQuiz";
@@ -10,7 +10,6 @@ import AddAuthorForm from "./AddAuthorForm";
 import * as serviceWorker from "./serviceWorker";
 import { shuffle, sample } from "underscore";
 
-const authors3 = [];
 const authors = [
   {
     name: "Mark Twain",
